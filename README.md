@@ -26,7 +26,6 @@ These instructions work on Windows and macOS. On Windows, run the commands in Po
 ### Pre-requisites
 Make sure the following dependencies are installed on your machine:
    - [uv](https://docs.astral.sh/uv/getting-started/installation/) - Python env and dependency manager
-   - [renv](https://rstudio.github.io/renv/) - R env manager
    - [Quarto](https://quarto.org/docs/get-started/) - Used to render the report
 
 ### Steps to run analysis
@@ -43,18 +42,13 @@ Make sure the following dependencies are installed on your machine:
    uv sync
    ```
 
-3. Setup R environment:
-   ```bash
-   Rscript -e "renv::restore()"
-   ```
-
-4. Render the report. This downloads the data, saves it to `data/raw/` and `data/processed/`, runs the analysis, and writes `analysis/spotify-genre-prediction.html`:
+3. Render the report. This downloads the data, saves it to `data/raw/` and `data/processed/`, runs the analysis, and writes `analysis/spotify-genre-prediction.html`:
 
    ```bash
    uv run quarto render analysis/spotify-genre-prediction.qmd
    ```
 
-5. Open `analysis/spotify-genre-prediction.html` in a web browser to read the report.
+4. Open `analysis/spotify-genre-prediction.html` in a web browser to read the report.
 
 
 ## Dependencies
@@ -62,7 +56,6 @@ Make sure the following dependencies are installed on your machine:
 - [uv](https://docs.astral.sh/uv/) (version 0.9 or later)
 - [Quarto](https://quarto.org/) (version 1.6 or later)
 - Python 3.13
-- [R](https://cran.r-project.org/) 4.6
 
 ## Data
 
