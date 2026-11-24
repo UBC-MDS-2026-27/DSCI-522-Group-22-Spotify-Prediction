@@ -1,0 +1,11 @@
+# Keep the Docker build context small: the Dockerfile only copies
+# pyproject.toml, uv.lock and .python-version, so nothing else is needed.
+.git/
+.venv/
+data/
+docs/
+analysis/
+renv/library/
+.quarto/
+**/__pycache__/
+.DS_Store
