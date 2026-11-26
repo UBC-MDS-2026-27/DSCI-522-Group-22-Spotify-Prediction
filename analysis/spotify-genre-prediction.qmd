@@ -220,6 +220,7 @@ We created two visualizations using only the training data to explore the genre 
 #| fig-cap: "Number of songs in each playlist genre in the training set."
 
 import altair as alt
+alt.renderers.enable("svg")
 
 genre_chart = (
     alt.Chart(genre_summary)
