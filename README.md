@@ -41,7 +41,7 @@ docker --version
 docker compose version
 ```
 
-Both commands should return version information.
+Both commands should return a version response. This step is only to verify that Docker and Docker Compose are installed and accessible from your terminal. No specific version is required for this check.
 
 ### Steps to run analysis
 
