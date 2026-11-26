@@ -32,7 +32,7 @@ import matplotlib.pyplot as plt
 
 ## Summary
 
-<!-- Quick paragraph about the question being asked and a summary of the result and analysis. Do this at the end (#17) -->
+In this report we ask whether a k-nearest neighbours (k-NN) classification model can use descriptive audio features such as energy, key, mode, and speechiness, amongst others, to accurately predict a genre of the song from one of the following six music genre categories: EDM, latin, pop, R&B, rap and rock. Our tuned k-NN model achieved a test accuracy of 50.56%, indicating that the selected audio features alone are only moderately effective at separating the six genres. Performance was limited by substantial overlap in feature distributions across genres and by the inherently subjective nature of target genre classification labels. Including additional features and testing of alternative models may improve genre prediction.
 
 ## Introduction
 
@@ -42,18 +42,18 @@ Music information retrieval (MIR) is an active area of research, and music genre
 
 In our study, we use Spotify song data (R for Data Science Online Learning Community, 2020) collected from the Spotify Web API using the spotifyr package (Thompson et al., 2024). This data set contains total 28,356 unique songs, each with twelve numeric audio descriptive features. These features include:
 
-    1. danceability (scale of 0-1, based on a combination of musical elements); 
-    2. energy (scale of 0-1, based on measure of intensity and activity); 
-    3. key (ordinal integer based on standard pitch Class notation that measures the estimated overall key of the track);
-    4. loudness (measures the overall loudness of the track in decibels, dB); 
-    5. mode (indicates the modality if song is in major (1) or minor (0)); 
-    6. speechiness (a measure of the presence of spoken words in a song, ranging from 0-1); 
-    7. acousticness (a confidence level of whether the track is acoustic, ranging from 0-1); 
-    8. instrumentalness (measure of whether a track contains no vocals, ranging from 0-1); 
-    9. liveness (measure of the presence of a live audience in the song recording, ranging from 0-1); 
-    10. valence (measure describing the musical positiveness conveyed by the song, ranging from 0-1); 
-    11. tempo (estimated tempo of the song in beats per minute, bpm); and 
-    12. duration (duration of the song in milliseconds, ms). 
+1. danceability (scale of 0-1, based on a combination of musical elements); 
+2. energy (scale of 0-1, based on measure of intensity and activity); 
+3. key (ordinal integer based on standard pitch Class notation that measures the estimated overall key of the track);
+4. loudness (measures the overall loudness of the track in decibels, dB); 
+5. mode (indicates the modality if song is in major (1) or minor (0)); 
+6. speechiness (a measure of the presence of spoken words in a song, ranging from 0-1); 
+7. acousticness (a confidence level of whether the track is acoustic, ranging from 0-1); 
+8. instrumentalness (measure of whether a track contains no vocals, ranging from 0-1); 
+9. liveness (measure of the presence of a live audience in the song recording, ranging from 0-1); 
+10. valence (measure describing the musical positiveness conveyed by the song, ranging from 0-1); 
+11. tempo (estimated tempo of the song in beats per minute, bpm); and 
+12. duration (duration of the song in milliseconds, ms). 
 
 The target we aim to predict is a candidate playlist genre for the song, one of EDM, latin, pop, R&B, rap and rock, determined from existing user-created and Spotify playlists that contain these songs.
 
@@ -220,6 +220,7 @@ We created two visualizations using only the training data to explore the genre 
 #| fig-cap: "Number of songs in each playlist genre in the training set."
 
 import altair as alt
+alt.renderers.enable("svg")
 
 genre_chart = (
     alt.Chart(genre_summary)
@@ -353,28 +354,11 @@ display(feature_chart)
 We defined playlist_genre as our target variable and selected 12 numerical audio features as predictors. These features capture different characteristics of a song, including its rhythmic properties, energy, tonal attributes, and duration. We then separated the predictors and target labels for both the training and test sets, providing the inputs needed for feature selection, model training, and evaluation.
 
 ```{python}
-target = "playlist_genre"
+X_train = train_df[FEATURES]
+y_train = train_df[TARGET]
 
-features = [
-    "danceability",
-    "energy",
-    "key",
-    "loudness",
-    "mode",
-    "speechiness",
-    "acousticness",
-    "instrumentalness",
-    "liveness",
-    "valence",
-    "tempo",
-    "duration_ms"
-]
-
-X_train = train_df[features]
-y_train = train_df[target]
-
-X_test = test_df[features]
-y_test = test_df[target]
+X_test = test_df[FEATURES]
+y_test = test_df[TARGET]
 ```
 
 We then used Mutual Information to rank the 12 audio features based on how informative they were for predicting playlist genre. Continuous features were treated as continuous variables, while key and mode were treated as discrete features since they represent musical categories rather than continuous measurements. This ranking allowed us to identify the most informative audio features and investigate whether using a smaller subset of predictors could improve classification performance.
@@ -397,7 +381,7 @@ mi_scores = mutual_info_classif(
 
 # Rank features
 feature_ranking = pd.DataFrame({
-    "feature": features,
+    "feature": FEATURES,
     "mi_score": mi_scores
 }).sort_values(
     "mi_score", ascending=False
@@ -587,23 +571,69 @@ Using the selected Top 8 feature subset and (*k* = 103), we fitted the final KNN
 
 ## Results
 
-<!--
-(#16) Key results that answer the question, using figures and tables.
-- Number and caption every figure and table, and refer to them in the text.
-- Label axes in plain English with units; include legends.
--->
+To further examine model performance, we evaluated its predictions across individual genres using precision, recall, and F1-score. This allows us to identify which genres were more accurately classified and which were more challenging for the model to distinguish.
+
+```{python}
+from sklearn.metrics import classification_report
+import pandas as pd
+
+report = classification_report(
+    y_test,
+    y_pred,
+    output_dict=True
+)
+
+report_df = pd.DataFrame(report).transpose()
+
+genre_metrics = report_df.loc[
+    sorted(y_test.unique()),
+    ["precision", "recall", "f1-score"]
+]
+
+genre_metrics
+```
+
+The model's performance varied considerably across genres. EDM achieved the highest recall (67.11%) and F1-score (60.45%), followed by rap, indicating that these genres were relatively easier for the model to identify. Rock had the highest precision (59.85%), suggesting that its predictions were comparatively reliable. In contrast, pop had the lowest F1-score (36.97%), while Latin also showed relatively low recall (37.48%). These differences suggest that the selected audio features may capture characteristics of certain genres more effectively than others.
+
+We also compared the actual genre distribution in the test set with the distribution of genres predicted by the model. This comparison helps identify whether the model tends to favor certain genres or systematically underpredicts others.
+
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+actual_counts = y_test.value_counts().sort_index()
+predicted_counts = pd.Series(y_pred).value_counts().sort_index()
+
+distribution_df = pd.DataFrame({
+    "Actual": actual_counts,
+    "Predicted": predicted_counts
+}).fillna(0)
+
+distribution_df.plot(
+    kind="bar",
+    figsize=(8, 4)
+)
+
+plt.xlabel("Playlist Genre")
+plt.ylabel("Number of Songs")
+plt.title("Actual vs. Predicted Genre Distribution")
+plt.xticks(rotation=45)
+plt.legend(title="Distribution")
+plt.tight_layout()
+plt.show()
+```
+
+The predicted genre distribution differed from the actual distribution in the test set. EDM and rap were overpredicted, while Latin was notably underpredicted. The model predicted approximately 1,190 EDM songs compared with fewer than 1,000 actual songs, while the number of predicted Latin songs was substantially lower than the actual count. Although the predicted counts for pop, R&B, and rock were relatively close to their actual distributions, this does not necessarily indicate accurate classification at the individual-song level. These discrepancies highlight differences in prediction behavior across genres and may help explain the uneven classification performance observed.
 
 ## Discussion
 
-<!--
-(#17)
-- Summarize what we found and link it back to the question.
-- What the findings mean in the real world.
-- Is this what we expected?
-- Assumptions and limitations.
-- Impact of the findings.
-- Future questions.
--->
+In this analysis, we found that it is difficult to accurately predict music genre from 12 numerical audio features alone. These results suggest that audio features alone are not always sufficient for reliable genre classification, and consideration of other additional information and song metadata may be needed to accurately predict genre classification. However, despite its moderate accuracy score, this k-NN model could still support rough suggestions for similar genres when building playlists or recommending related songs. 
+
+Our final k-NN model achieved a final accuracy score of 50.56% on the test dataset. This score was lower than expected, and the optimum number of neighbours (k=103) was unexpectedly high. In this case, a large k likely reflects heavily overlapping genre classes amongst the examined 8 features, leading to averaging over many neighbours to reduce overfitting to individual nearby songs. However, results show that prediction scores varied across genres, potentially indicating more unique audio feature values for genres such as EDM and rap compared to other genres. To improve on this model, future work could include additional features not included in the current analysis, such as song title or artist, and testing of alternative model approaches such as Support Vector Machines (SVM) which have shown success for music genre classification in the field of music information retrieval (MIR) (Ramirez and Flores, 2020). 
+
+A key assumption of this analysis is that the provided target genres are an accurate representation of the true genre of the songs used in both training and testing. However, this was ultimately influenced by our initial decision to keep only the first occurrence of songs that were classified to multiple different genres, which itself illustrates the difficulty of defining one specific genre for any given song. Music genres are inherently subjective labels that can be vary across listeners and over time. Because all our data came from a single streaming service (Spotify) and was collected in one specific time range (2020-2021), this model may not generalize well to music genre classification from other time ranges or streaming platforms. 
+
+Overall, music genres can often have intersecting boundaries, and the overlapping audio features revealed in this analysis, makes for a difficult classification task. The findings of this analysis highlight that genre is a dynamic, context-dependent label rather than a fixed characteristic of a given song. Model predicted genres should therefore be treated as suggestions rather than definitive categories, and streaming services should be cautious of relying on models exclusively given how they could affect artist exposure or listener recommendations.
 
 ## References
 

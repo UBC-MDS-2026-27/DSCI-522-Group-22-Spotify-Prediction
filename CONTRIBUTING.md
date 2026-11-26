@@ -9,7 +9,7 @@ Thank you for your interest in contributing to our Spotify Genre Prediction proj
 
 ## Reporting Bugs
 
-If you find a bug, please [open a GitHub issue](https://github.com/UBC-MDS-2026-27/DSCI-522-Group-22/issues) and include:
+If you find a bug, please [open a GitHub issue](https://github.com/UBC-MDS-2026-27/DSCI-522-Group-22-Spotify-Prediction/issues) and include:
 
 - A description of the problem.
 - Steps to reproduce it.
