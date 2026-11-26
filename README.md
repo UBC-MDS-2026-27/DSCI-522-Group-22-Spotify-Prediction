@@ -30,8 +30,6 @@ These instructions are for Windows and macOS users. On Windows, run the commands
 
 Make sure the following software is installed and running on your machine:
 
-- [Git](https://git-scm.com/install/) - for cloning the repository
-
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) - for running the project container. Docker Desktop must be running before executing Docker commands.
 
 To check whether Docker is installed and running, open your terminal and run:
