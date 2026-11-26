@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Contributing to DSCI 522 Group 22
 
 Thank you for your interest in contributing to our Spotify Genre Prediction project! Please follow the guidelines below.
