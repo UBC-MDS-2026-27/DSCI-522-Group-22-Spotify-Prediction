@@ -12,8 +12,6 @@ In this repository, we ask whether a song's genre can be predicted from its audi
 
 In the current iteration of our analysis, a k-nearest neighbours (k-NN) model correctly predicted the genre of about half of the songs in the test set (50.56%). This suggests that audio features alone are only moderately useful for telling these genres apart, and that adding other information about songs or trying other models may improve predictions.
 
-In the current iteration of our analysis, a k-nearest neighbours (k-NN) model correctly predicted the genre of about half of the songs in the test set (50.56%). This suggests that audio features alone are only moderately useful for telling these genres apart, and that adding other information about songs or trying other models may improve predictions.
-
 ## Report
 
 The rendered report is available here: <https://ubc-mds-2026-27.github.io/DSCI-522-Group-22-Spotify-Prediction/>
