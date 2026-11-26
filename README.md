@@ -50,8 +50,8 @@ Both commands should return version information.
 2.  Clone the repository and navigate into the project directory:
 
     ``` bash
-    git clone https://github.com/UBC-MDS-2026-27/DSCI-522-Group-22.git
-    cd DSCI-522-Group-22
+    git clone https://github.com/UBC-MDS-2026-27/DSCI-522-Group-22-Spotify-Prediction.git
+    cd DSCI-522-Group-22-Spotify-Prediction
     ```
 
 3.  Set up an SSH key (if you do not already have one)
