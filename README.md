@@ -9,6 +9,7 @@ This repository was created as part of coursework (DSCI 522) in the UBC MDS prog
 In this repository, we ask whether a song's genre can be predicted from its audio features. The dataset has about 33,000 songs drawn from Spotify playlists across six genres: EDM, Latin, pop, R&B, rap and rock. The data was collected with the `spotifyr` R package and sourced from the TidyTuesday project. We split the data into training and test sets, explore the training data, and then fit a classification model to predict each song's playlist genre.
 
 <!-- TODO: Once the analysis is complete, add a few sentences describing findings and results of the analysis. -->
+
 In the current iteration of our analysis, a k-nearest neighbours (k-NN) model correctly predicted the genre of about half of the songs in the test set (50.56%). This suggests that audio features alone are only moderately useful for telling these genres apart, and that adding other information about songs or trying other models may improve predictions.
 
 ## Report
@@ -151,23 +152,24 @@ For instructions on modifying the project, working inside the container using Po
 
 ## Troubleshooting
 
-+------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Problem                                              | Solution                                                                                                                                                                                                                                                                        |
-+======================================================+=================================================================================================================================================================================================================================================================================+
-| Docker commands fail or Docker daemon is unavailable | Make sure Docker Desktop is installed and running. Open Docker Desktop and wait until it has fully started before running the commands again.                                                                                                                                   |
-+------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Docker compose pull fails                            | Check your internet connection and make sure Docker Desktop is running, then retry:                                                                                                                                                                                             |
-|                                                      |                                                                                                                                                                                                                                                                                 |
-|                                                      | ``` bash                                                                                                                                                                                                                                                                        |
-|                                                      | docker compose pull                                                                                                                                                                                                                                                             |
-|                                                      | ```                                                                                                                                                                                                                                                                             |
-+------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Commands are not recognized or fail to run           | Make sure you are running the commands from the root directory of the cloned `DSCI-522-Group-22` repository. On Windows, use PowerShell or Git Bash. On macOS, use Terminal.                                                                                                    |
-+------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Report rendering fails                               | Check the error message in the terminal. Make sure you are using the correct rendering command for the environment (Python, Python and R, or R only) and that Docker is running.                                                                                                |
-+------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Report HTML cannot be found after rendering          | Check the rendering output in the terminal to confirm whether Quarto completed successfully. If the report was rendered successfully but the HTML file is missing from your local project directory, verify that the project directory is correctly mounted into the container. |
-+------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+- Problem : Docker commands fail or Docker daemon is unavailable\
+  Solution : Make sure Docker Desktop is installed and running. Open Docker Desktop and wait until it has fully started before running the commands again.
+
+- Problem : Docker compose pull fails\
+  Solution : Check your internet connection and make sure Docker Desktop is running, then retry:
+
+  ``` bash
+  docker compose pull
+  ```
+
+- Problem : Commands are not recognized or fail to run\
+  Solution : Make sure you are running the commands from the root directory of the cloned DSCI-522-Group-22 repository. On Windows, use PowerShell or Git Bash. On macOS, use Terminal.
+
+- Problem : Report rendering fails\
+  Solution : Check the error message in the terminal. Make sure you are using the correct rendering command for the environment (Python, Python and R, or R only) and that Docker is running.
+
+- Problem : Report HTML cannot be found after rendering\
+  Solution : Check the rendering output in the terminal to confirm whether Quarto completed successfully. If the report was rendered successfully but the HTML file is missing from your local project directory, verify that the project directory is correctly mounted into the container.
 
 ## Dependencies
 
@@ -193,7 +195,7 @@ The code in this project is licensed under the [MIT License](LICENSE.md). The re
 
 ## Contributing
 
-Please read our [contributing guidelines](CONTRIBUTING.md) and the [code of conduct](CODE_OF_CONDUCT.md) for instructions on the contribution workflow and expectations for all contributors.
+Please read our [contributing guidelines](https://github.com/UBC-MDS-2026-27/DSCI-522-Group-22-Spotify-Prediction/tree/gab-README-containersetup?tab=contributing-ov-file) and the [code of conduct](CODE_OF_CONDUCT.md) for instructions on the contribution workflow and expectations for all contributors.
 
 ## Use of generative AI
 
