@@ -56,17 +56,17 @@ Both commands should return version information.
 
 3.  Set up an SSH key (if you do not already have one)
 
-    If you already have an SSH key, you can skip this step. Otherwise, generate a new Ed25519 SSH key.
+    The project Docker container uses SSH to support connecting to the container through Positron. If you already have an Ed25519 SSH key at \`\~/.ssh/id_ed25519\`, you can skip this step.
 
-    Run the following command in your terminal:
+    Otherwise, generate a key by running:
 
     ``` bash
     ssh-keygen -t ed25519
     ```
 
-    Press **Enter** at each prompt to accept the default location and settings.
+    Press **Enter** at each prompt to accept the default location and settings. This creates a public key at \`\~/.ssh/id_ed25519.pub\`, which is mounted into the container for SSH authentication.
 
-    This generates an SSH key pair in your `.ssh` directory.
+    If you do not have this key, Docker may create a directory or file with incorrect permissions or contents when mounting the key, and SSH connections to the container may fail.
 
 4.  Download the project Docker image
 
