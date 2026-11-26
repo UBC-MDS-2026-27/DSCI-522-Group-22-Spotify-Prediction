@@ -2,6 +2,13 @@
 
 Thank you for your interest in contributing to our Spotify Genre Prediction project! Please follow the guidelines below.
 
+## Setting Up the Development Environment
+
+Before working inside the project container, make sure you have completed the initial setup steps described in the [README](README.md), including:
+
+- Setting up your SSH key (if you do not already have one).
+- Pulling the Docker image using `docker compose pull`.
+
 ## Reporting Bugs
 
 If you find a bug, please [open a GitHub issue](https://github.com/UBC-MDS-2026-27/DSCI-522-Group-22-Spotify-Prediction/issues) and include:
