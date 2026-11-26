@@ -9,6 +9,7 @@ This repository was created as part of coursework (DSCI 522) in the UBC MDS prog
 In this repository, we ask whether a song's genre can be predicted from its audio features. The dataset has about 33,000 songs drawn from Spotify playlists across six genres: EDM, Latin, pop, R&B, rap and rock. The data was collected with the `spotifyr` R package and sourced from the TidyTuesday project. We split the data into training and test sets, explore the training data, and then fit a classification model to predict each song's playlist genre.
 
 <!-- TODO: Once the analysis is complete, add a few sentences describing findings and results of the analysis. -->
+In the current iteration of our analysis, a k-nearest neighbours (k-NN) model correctly predicted the genre of about half of the songs in the test set (50.56%). This suggests that audio features alone are only moderately useful for telling these genres apart, and that adding other information about songs or trying other models may improve predictions.
 
 In the current iteration of our analysis, a k-nearest neighbours (k-NN) model correctly predicted the genre of about half of the songs in the test set (50.56%). This suggests that audio features alone are only moderately useful for telling these genres apart, and that adding other information about songs or trying other models may improve predictions.
 
