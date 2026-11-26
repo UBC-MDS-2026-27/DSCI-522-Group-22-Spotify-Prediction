@@ -165,8 +165,6 @@ The project environment is managed through Docker to ensure reproducibility acro
 
 - Python 3.13
 
-- [R](https://cran.r-project.org/) 4.6
-
 Users do not need to install these dependencies individually on their local machines to run the analysis. Docker will provide the required environment.
 
 ## Data
