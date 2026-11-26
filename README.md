@@ -86,23 +86,13 @@ Both commands should return version information.
 
     Make sure you are in the root directory of the repository when running the following commands.
 
-    #### Render using Python, or Python and R
-
-    Run:
+    To render a Python project, run:
 
     ``` bash
     docker compose run --rm analysis-env uv run quarto render
     ```
 
-    #### Render using R only
-
-    Run:
-
-    ``` bash
-    docker compose run --rm analysis-env quarto render
-    ```
-
-    If the report file is not specified in the project's `_quarto.yml` configuration, provide the report path explicitly after `quarto render`:
+    If the report file is not specified in the project's `_quarto.yml` configuration, provide the report path explicitly after `quarto render`:
 
     ``` bash
     docker compose run --rm analysis-env uv run quarto render analysis/spotify-genre-prediction.qmd
@@ -147,8 +137,6 @@ Both commands should return version information.
     ``` bash
     docker compose down
     ```
-
-For instructions on modifying the project, working inside the container using Positron, adding packages, and republishing the report, see CONTRIBUTING.md.
 
 ## Troubleshooting
 
@@ -195,7 +183,7 @@ The code in this project is licensed under the [MIT License](LICENSE.md). The re
 
 ## Contributing
 
-Please read our [contributing guidelines](https://github.com/UBC-MDS-2026-27/DSCI-522-Group-22-Spotify-Prediction/tree/gab-README-containersetup?tab=contributing-ov-file) and the [code of conduct](CODE_OF_CONDUCT.md) for instructions on the contribution workflow and expectations for all contributors.
+Please read our [contributing guidelines](CONTRIBUTING.md) and the [code of conduct](CODE_OF_CONDUCT.md) for instructions on the contribution workflow and expectations for all contributors.
 
 ## Use of generative AI
 
