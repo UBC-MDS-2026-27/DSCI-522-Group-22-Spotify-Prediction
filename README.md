@@ -82,8 +82,6 @@ Both commands should return a version response. This step is only to verify that
 
 5.  Render the report inside the container
 
-    The report is rendered inside the Docker container, using the project's reproducible environment. You do not need to install the project's Python or R packages directly on your host computer.
-
     Make sure you are in the root directory of the repository when running the following commands.
 
     To render a Python project, run:
