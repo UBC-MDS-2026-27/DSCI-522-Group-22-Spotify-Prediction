@@ -152,6 +152,135 @@ Before working inside the project container, make sure you have completed the in
 
 6.  If Positron is using the wrong Python interpreter, follow the Select the Python Interpreter instructions (Step 6) in the [Working in the Container with Positron over SSH] section again.
 
+## Adding or Updating a Package
+
+When adding a new package or updating an existing one, make sure the changes are made within the project's environment so that the dependencies are reflected in the Docker image.
+
+1.  Create a branch before changing the project environment.
+
+    Start from the latest `main` branch and create a new branch for your changes:
+
+    ``` bash
+    git switch main
+    git pull
+    git switch -c new-branch-name
+    ```
+
+    Replace `new-branch-name` with a descriptive branch name.
+
+2.  Add the package inside the container using `uv` to add the package and specify its version:
+
+    ``` bash
+    uv add package-name==version
+    ```
+
+    Replace `package-name` and `version` with the package name and required version. This updates the project's dependency files.
+
+3.  Commit the updated environment files and push your branch to GitHub:
+
+    ``` bash
+    git add pyproject.toml uv.lock
+    git commit -m "Add package-name dependency"
+    git push -u origin add-package-name
+    ```
+
+4.  Wait for the new Docker image to be built.
+
+    Pushing your branch triggers GitHub Actions to build and publish a new Docker image and update the image tag in `docker-compose.yml` on your branch. Once the GitHub Actions workflow in the Actions tab completes successfully (green check mark), the updated image is ready.
+
+5.  Stage the updated dependency files and run:
+
+    ``` bash
+    git add pyproject.toml uv.lock
+    ```
+
+6.  Commit your changes using the project's commit message convention:
+
+    ``` bash
+    git commit -m "Add package-name dependency"
+    ```
+
+    Replace `package-name` with the actual package name you added or updated.
+
+7.  Push your branch to GitHub and run:
+
+    ``` bash
+    git push -u origin add-package-name
+    ```
+
+    Replace `add-package-name` with your actual branch name.
+
+8.  Go to the project repository on GitHub and open a pull request from your branch into `main`.
+
+9.  Wait for your pull request to be reviewed and merged into `main`. Address any requested changes before merging.
+
+    After merging, GitHub Actions will build and publish a new Docker image and update the image SHA tag in `docker-compose.yml` on `main`.
+
+    Do not manually edit the image SHA tag in `docker-compose.yml`.
+
+10. After your pull request has been merged, update your local `main` branch and download the latest Docker image:
+
+    ``` bash
+    git switch main
+    git pull
+    docker compose pull
+    ```
+
+    Your local repository and Docker image are now updated with the new package dependency.
+
+## Publish the Report
+
+After making your final changes, re-render the report and publish the updated HTML to GitHub Pages.
+
+1.  Re-render the report from the project root using the Docker container:
+
+    ``` bash
+    docker compose run --rm analysis-env uv run quarto render
+    ```
+
+2.  Copy the generated HTML file from `analysis/` to `docs/index.html`, replacing the existing published report:
+
+    ``` bash
+    cp analysis/spotify-genre-prediction.html docs/index.html
+    ```
+
+3.  Check your changes:
+
+    ``` bash
+    git status
+    ```
+
+4.  Stage and commit the updated report:
+
+    ``` bash
+    git add docs/index.html
+    git commit -m "Add-Commit-Message"
+    ```
+
+5.  Push your working branch to GitHub:
+
+    ``` bash
+    git push origin your-branch-name
+    ```
+
+    Replace `your-branch-name` with your working branch name.
+
+6.  Go to the project repository on GitHub and open a pull request from your branch into `main`.
+
+7.  Wait for your pull request to be reviewed and merged into `main` for the published website to update.
+
+8.  Verify the published report by visiting the updated project website and confirming that the latest changes are visible.
+
+## Making Contributions
+
+1.  Clone the repository and create a new branch from the latest `main`.
+2.  Make your changes and commit them with clear messages.
+3.  Push your branch to GitHub and open a pull request (PR).
+4.  Describe your changes and link the related issue if applicable.
+5.  Have at least one other team member review and approve your PR before merging.
+
+Please do not push changes directly to `main`.
+
 ## Reporting Bugs
 
 If you find a bug, please [open a GitHub issue](https://github.com/UBC-MDS-2026-27/DSCI-522-Group-22-Spotify-Prediction/issues) and include:
@@ -163,16 +292,6 @@ If you find a bug, please [open a GitHub issue](https://github.com/UBC-MDS-2026-
 ## Suggesting Improvements
 
 We welcome suggestions for improving our code, analysis, or documentation. Please open a GitHub issue to describe your idea before making major changes.
-
-## Making Contributions
-
-1.  Clone the repository and create a new branch from the latest `main`.
-2.  Make your changes and commit them with clear messages.
-3.  Push your branch to GitHub and open a pull request (PR).
-4.  Describe your changes and link the related issue if applicable.
-5.  Have at least one other team member review and approve your PR before merging.
-
-Please do not push changes directly to `main`.
 
 ## Generative AI Policy
 
