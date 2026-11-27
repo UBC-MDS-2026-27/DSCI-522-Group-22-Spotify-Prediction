@@ -150,7 +150,7 @@ Before working inside the project container, make sure you have completed the in
     docker compose restart analysis-env
     ```
 
-6.  If Positron is using the wrong Python interpreter, follow the Select the Python Interpreter instructions (Step 6)gigi in the [Working in the Container with Positron over SSH] section again.
+6.  If Positron is using the wrong Python interpreter, follow the Select the Python Interpreter instructions (Step 6) in the [Working in the Container with Positron over SSH] section again.
 
 ## Reporting Bugs
 
