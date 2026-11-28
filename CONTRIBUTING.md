@@ -58,25 +58,21 @@ Before working inside the project container, make sure you have completed the in
 
     3.  Select **Connect to Host**.
 
-    4.  Enter the SSH host:
+    4.  Enter the SSH host, including the port, and press Enter:
 
         ``` bash
-        root@localhost
+        root@localhost:2222
         ```
 
-    5.  When prompted for the port, enter:
+    5.  If prompted for the platform of the remote host, select **Linux**. If prompted to confirm the host authenticity, select **Continue** or **Yes**. The first time you connect, Positron installs its server inside the container, which can take a few minutes.
 
-        ``` bash
-        2222
-        ```
-
-    6.  If prompted to confirm the host authenticity, select **Continue** or **Yes**.
-
-    7.  Once connected, open the project folder:
+    6.  Once connected (the bottom left corner shows `SSH: localhost:2222`), open the project folder. Select **File > Open Folder**, replace the path with the following, and click **OK** (you may need to click **OK** more than once):
 
         ```         
         /workspace
         ```
+
+    7.  If Positron asks whether you trust the authors of the files in this folder, select **Yes, I trust the authors** (or **Trust this folder**). Consoles cannot start in Restricted Mode.
 
 6.  Select the Python interpreter
 
@@ -88,30 +84,31 @@ Before working inside the project container, make sure you have completed the in
 
     3.  Select the Python interpreter located at `/opt/venv/bin/python` from the list.
 
-    4.  If the interpreter is not listed, select **Enter interpreter path**, and enter:
+        Do not select `/workspace/.venv`, even if Positron picks it automatically. That is the environment from your own computer, and it does not run in the container.
+
+    4.  If the interpreter is not listed (it often is not), select **Enter interpreter path**, and enter:
 
         ```         
         /opt/venv/bin/python
         ```
 
-    5.  Open the Positron terminal and verify the selected interpreter:
+    5.  Verify the selected interpreter by running the following in the Positron Console:
 
-        ```         
-        which python
-        python --version
+        ``` python
+        import sys; print(sys.executable)
         ```
 
-        The path should return `/opt/venv/bin/python`, confirming that Positron is using the project's Python environment inside the container.
+        It should print `/opt/venv/bin/python`, confirming that Positron is using the project's Python environment inside the container.
 
-    6.  Stop the container
+7.  Stop the container
 
-        When finished working, stop the container from your local terminal:
+    When finished working, close the Positron window, then stop the container from your local terminal:
 
-        ``` bash
-        docker compose down
-        ```
+    ``` bash
+    docker compose down
+    ```
 
-    7.  **To start working again, repeat Step 4.**
+8.  **To start working again, repeat Steps 3, 5 and 6.**
 
 ## Troubleshooting
 
@@ -162,8 +159,19 @@ Before working inside the project container, make sure you have completed the in
     docker compose restart analysis-env
     ```
 
-7.  If Positron is using the wrong Python interpreter, follow the Select the Python Interpreter instructions (Step 6) in the [Working in the Container with Positron over SSH] section again.
+7.  If Positron is using the wrong Python interpreter (for example, a `python: command not found` error mentioning `/workspace/.venv`), follow the Select the Python Interpreter instructions (Step 6) in the [Working in the Container with Positron over SSH](#working-in-the-container-with-positron-over-ssh) section again.
 
+8.  If `~/.ssh/id_ed25519.pub` or `~/.gitconfig` is a folder instead of a file, Docker created it because the file did not exist when the container started. Run `docker compose down`, delete that folder, create the SSH key (see the [README](README.md)) or set your Git name and email (see Step 2 of [Working in the Container with Positron over SSH](#working-in-the-container-with-positron-over-ssh)), and start the container again.
+
+9.  If SSH asks for a password, the container cannot see your key. Check that your public key is named `id_ed25519.pub` and is in your `~/.ssh` folder. If the key is there, make sure you have the latest image (`git pull`, then `docker compose pull`).
+
+10. If you see "Remote host identification has changed", you are using a new version of the image. Run this in your local terminal, then connect again:
+
+    ``` bash
+    ssh-keygen -R "[localhost]:2222"
+    ```
+
+11. If port `2222` is already in use, change the first `2222` in `docker-compose.yml` to another number (for example, `2223`), and connect to that port instead.
 ## Adding or Updating a Package
 
 When adding a new package or updating an existing one, make sure the changes are made within the project's environment so that the dependencies are reflected in the Docker image.
@@ -175,12 +183,12 @@ When adding a new package or updating an existing one, make sure the changes are
     ``` bash
     git switch main
     git pull
-    git switch -c new-branch-name
+    git switch -c add-package-name
     ```
 
-    Replace `new-branch-name` with a descriptive branch name.
+    Replace `add-package-name` with a descriptive branch name.
 
-2.  Add the package inside the container using `uv` to add the package and specify its version:
+2.  In the Positron terminal inside the container, use `uv` to add the package and specify its version:
 
     ``` bash
     uv add package-name==version
@@ -200,37 +208,22 @@ When adding a new package or updating an existing one, make sure the changes are
 
     Pushing your branch triggers GitHub Actions to build and publish a new Docker image and update the image tag in `docker-compose.yml` on your branch. Once the GitHub Actions workflow in the Actions tab completes successfully (green check mark), the updated image is ready.
 
-5.  Stage the updated dependency files and run:
+    Download the updated `docker-compose.yml` and the new image from your local terminal:
 
     ``` bash
-    git add pyproject.toml uv.lock
+    git pull
+    docker compose pull
     ```
 
-6.  Commit your changes using the project's commit message convention:
+5.  Go to the project repository on GitHub and open a pull request from your branch into `main`.
 
-    ``` bash
-    git commit -m "Add package-name dependency"
-    ```
-
-    Replace `package-name` with the actual package name you added or updated.
-
-7.  Push your branch to GitHub and run:
-
-    ``` bash
-    git push -u origin add-package-name
-    ```
-
-    Replace `add-package-name` with your actual branch name.
-
-8.  Go to the project repository on GitHub and open a pull request from your branch into `main`.
-
-9.  Wait for your pull request to be reviewed and merged into `main`. Address any requested changes before merging.
+6.  Wait for your pull request to be reviewed and merged into `main`. Address any requested changes before merging.
 
     After merging, GitHub Actions will build and publish a new Docker image and update the image SHA tag in `docker-compose.yml` on `main`.
 
     Do not manually edit the image SHA tag in `docker-compose.yml`.
 
-10. After your pull request has been merged, update your local `main` branch and download the latest Docker image:
+7.  After your pull request has been merged, update your local `main` branch and download the latest Docker image:
 
     ``` bash
     git switch main
@@ -247,7 +240,7 @@ After making your final changes, re-render the report and publish the updated HT
 1.  Re-render the report from the project root using the Docker container:
 
     ``` bash
-    docker compose run --rm analysis-env uv run quarto render
+    docker compose run --rm analysis-env uv run quarto render analysis/spotify-genre-prediction.qmd
     ```
 
 2.  Copy the generated HTML file from `analysis/` to `docs/index.html`, replacing the existing published report:
