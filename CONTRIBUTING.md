@@ -130,7 +130,19 @@ Before working inside the project container, make sure you have completed the in
 
     If it fails, confirm Docker is running, the container is active, and port `2222` is available.
 
-3.  If SSH key is missing, run this in your local terminal:
+3.  If you encounter a connection issue when using `localhost`, try connecting with the loopback IP address instead:
+
+    ``` bash
+    ssh -p 2222 root@127.0.0.1
+    ```
+
+    For Positron, you can also try entering the following SSH host:
+
+    ``` bash
+    root@127.0.0.1:2222
+    ```
+
+4.  If SSH key is missing, run this in your local terminal:
 
     ``` bash
     ls ~/.ssh/id_ed25519.pub
@@ -138,19 +150,19 @@ Before working inside the project container, make sure you have completed the in
 
     If the key does not exist, follow the SSH key setup instructions in the [README](README.md).
 
-4.  To check container logs, run this in your local terminal:
+5.  To check container logs, run this in your local terminal:
 
     ``` bash
     docker compose logs analysis-env
     ```
 
-5.  To restart the container, run this in your local terminal:
+6.  To restart the container, run this in your local terminal:
 
     ``` bash
     docker compose restart analysis-env
     ```
 
-6.  If Positron is using the wrong Python interpreter, follow the Select the Python Interpreter instructions (Step 6) in the [Working in the Container with Positron over SSH] section again.
+7.  If Positron is using the wrong Python interpreter, follow the Select the Python Interpreter instructions (Step 6) in the [Working in the Container with Positron over SSH] section again.
 
 ## Adding or Updating a Package
 
