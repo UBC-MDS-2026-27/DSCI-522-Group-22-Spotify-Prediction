@@ -8,8 +8,6 @@ This repository was created as part of coursework (DSCI 522) in the UBC MDS prog
 
 In this repository, we ask whether a song's genre can be predicted from its audio features. The dataset has about 33,000 songs drawn from Spotify playlists across six genres: EDM, Latin, pop, R&B, rap and rock. The data was collected with the `spotifyr` R package and sourced from the TidyTuesday project. We split the data into training and test sets, explore the training data, and then fit a classification model to predict each song's playlist genre.
 
-<!-- TODO: Once the analysis is complete, add a few sentences describing findings and results of the analysis. -->
-
 In the current iteration of our analysis, a k-nearest neighbours (k-NN) model correctly predicted the genre of about half of the songs in the test set (50.56%). This suggests that audio features alone are only moderately useful for telling these genres apart, and that adding other information about songs or trying other models may improve predictions.
 
 ## Report
@@ -17,8 +15,6 @@ In the current iteration of our analysis, a k-nearest neighbours (k-NN) model co
 The rendered report is available here: <https://ubc-mds-2026-27.github.io/DSCI-522-Group-22-Spotify-Prediction/>
 
 The source for the report is [`analysis/spotify-genre-prediction.qmd`](analysis/spotify-genre-prediction.qmd).
-
-<!-- TODO: Add link to report hosted on GitHub Pages as part of Milestone 3 -->
 
 ## How to run the analysis
 
@@ -54,7 +50,7 @@ Both commands should return a version response. This step is only to verify that
 
 3.  Set up an SSH key (if you do not already have one)
 
-    The project Docker container uses SSH to support connecting to the container through Positron. If you already have an Ed25519 SSH key at \`\~/.ssh/id_ed25519\`, you can skip this step.
+    The project Docker container uses SSH to support connecting to the container through Positron. If you already have an Ed25519 SSH key at `~/.ssh/id_ed25519`, you can skip this step.
 
     Otherwise, generate a key by running:
 
@@ -62,7 +58,7 @@ Both commands should return a version response. This step is only to verify that
     ssh-keygen -t ed25519
     ```
 
-    Press **Enter** at each prompt to accept the default location and settings. This creates a public key at \`\~/.ssh/id_ed25519.pub\`, which is mounted into the container for SSH authentication.
+    Press **Enter** at each prompt to accept the default location and settings. This creates a public key at `~/.ssh/id_ed25519.pub`, which is mounted into the container for SSH authentication.
 
     If you do not have this key, Docker may create a directory or file with incorrect permissions or contents when mounting the key, and SSH connections to the container may fail.
 
@@ -80,15 +76,7 @@ Both commands should return a version response. This step is only to verify that
 
 5.  Render the report inside the container
 
-    Make sure you are in the root directory of the repository when running the following commands.
-
-    To render a Python project, run:
-
-    ``` bash
-    docker compose run --rm analysis-env uv run quarto render
-    ```
-
-    If the report file is not specified in the project's `_quarto.yml` configuration, provide the report path explicitly after `quarto render`:
+    Make sure you are in the root directory of the repository when running the following command:
 
     ``` bash
     docker compose run --rm analysis-env uv run quarto render analysis/spotify-genre-prediction.qmd
@@ -120,7 +108,7 @@ Both commands should return a version response. This step is only to verify that
 
 7.  Container cleanup
 
-    The `--rm` option in the rendering commands automatically removes the temporary container after the rendering process finishes. You do not need to manually stop or remove it.
+    The `--rm` option in the rendering command automatically removes the temporary container after the rendering process finishes. You do not need to manually stop or remove it.
 
     If you started a persistent container separately using:
 
@@ -147,10 +135,10 @@ Both commands should return a version response. This step is only to verify that
   ```
 
 - Problem : Commands are not recognized or fail to run\
-  Solution : Make sure you are running the commands from the root directory of the cloned DSCI-522-Group-22 repository. On Windows, use PowerShell or Git Bash. On macOS, use Terminal.
+  Solution : Make sure you are running the commands from the root directory of the cloned DSCI-522-Group-22-Spotify-Prediction repository. On Windows, use PowerShell or Git Bash. On macOS, use Terminal.
 
 - Problem : Report rendering fails\
-  Solution : Check the error message in the terminal. Make sure you are using the correct rendering command for the environment (Python, Python and R, or R only) and that Docker is running.
+  Solution : Check the error message in the terminal. Make sure you are using the rendering command from step 5 exactly as written, including the report path, and that Docker is running.
 
 - Problem : Report HTML cannot be found after rendering\
   Solution : Check the rendering output in the terminal to confirm whether Quarto completed successfully. If the report was rendered successfully but the HTML file is missing from your local project directory, verify that the project directory is correctly mounted into the container.
@@ -159,9 +147,9 @@ Both commands should return a version response. This step is only to verify that
 
 The project environment is managed through Docker to ensure reproducibility across different operating systems. The following tools and versions are used within the project environment:
 
-- [uv](https://docs.astral.sh/uv/) (version 0.9 or later)
+- [uv](https://docs.astral.sh/uv/) 0.13.7
 
-- [Quarto](https://quarto.org/) (version 1.6 or later)
+- [Quarto](https://quarto.org/) 1.11.9
 
 - Python 3.13
 
